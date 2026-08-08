@@ -1,0 +1,2345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>MINDLY — Your Mind, Your Space</title>
+
+<style>
+
+/* =========================================================
+   MINDLY
+   Team KRYPTIX
+   SIH1363 Prototype
+   ========================================================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --primary: #6759e8;
+    --primary-dark: #5144c9;
+    --secondary: #8b7cf6;
+    --mint: #66d6b4;
+    --green: #35b779;
+    --yellow: #f4c95d;
+    --orange: #f39c5a;
+    --red: #e96b75;
+    --dark: #24243a;
+    --text: #55556b;
+    --light: #f7f7fc;
+    --white: #ffffff;
+    --border: #e9e8f2;
+    --shadow: 0 15px 45px rgba(57, 49, 120, 0.12);
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background:
+        radial-gradient(circle at top left, #eeeaff 0, transparent 35%),
+        radial-gradient(circle at bottom right, #e4faf4 0, transparent 35%),
+        var(--light);
+    color: var(--dark);
+    min-height: 100vh;
+}
+
+/* APP */
+
+.app {
+    width: 100%;
+    max-width: 480px;
+    min-height: 100vh;
+    margin: auto;
+    background: rgba(255,255,255,0.85);
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* TOP BAR */
+
+.topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(233,232,242,0.7);
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo {
+    width: 42px;
+    height: 42px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    font-size: 21px;
+    box-shadow: 0 8px 20px rgba(103,89,232,0.28);
+}
+
+.brand-name {
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+.brand-tag {
+    font-size: 10px;
+    color: #88879b;
+    margin-top: 2px;
+}
+
+/* SCREENS */
+
+.screen {
+    display: none;
+    padding: 25px 20px 100px;
+    animation: fadeIn .3s ease;
+}
+
+.screen.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* HERO */
+
+.hero {
+    text-align: center;
+    padding: 38px 10px 25px;
+}
+
+.mind-orb {
+    width: 135px;
+    height: 135px;
+    margin: 0 auto 25px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background:
+        radial-gradient(circle at 35% 30%, #ffffff 0 5%, transparent 6%),
+        linear-gradient(135deg, #8c80fa, #5c4dde);
+    box-shadow:
+        0 0 0 15px rgba(103,89,232,0.08),
+        0 20px 50px rgba(103,89,232,0.25);
+    font-size: 58px;
+    animation: float 4s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
+.hero h1 {
+    font-size: 42px;
+    letter-spacing: -2px;
+    margin-bottom: 8px;
+}
+
+.hero .tagline {
+    color: var(--primary);
+    font-weight: 700;
+    margin-bottom: 18px;
+}
+
+.hero p {
+    color: var(--text);
+    line-height: 1.7;
+    font-size: 14px;
+}
+
+/* BUTTONS */
+
+.btn {
+    width: 100%;
+    border: none;
+    padding: 16px 20px;
+    border-radius: 17px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: .2s;
+    margin-top: 12px;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+}
+
+.btn-primary {
+    color: white;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    box-shadow: 0 12px 25px rgba(103,89,232,0.22);
+}
+
+.btn-secondary {
+    color: var(--primary);
+    background: #efedff;
+}
+
+.btn-light {
+    background: white;
+    color: var(--dark);
+    border: 1px solid var(--border);
+}
+
+/* CARDS */
+
+.card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 22px;
+    padding: 20px;
+    margin-bottom: 14px;
+    box-shadow: 0 8px 30px rgba(50,45,100,0.05);
+}
+
+.card h3 {
+    margin-bottom: 8px;
+}
+
+.card p {
+    color: var(--text);
+    line-height: 1.6;
+    font-size: 13px;
+}
+
+.feature-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.feature {
+    padding: 18px 14px;
+    border-radius: 18px;
+    background: white;
+    border: 1px solid var(--border);
+}
+
+.feature-icon {
+    font-size: 25px;
+    margin-bottom: 10px;
+}
+
+.feature strong {
+    font-size: 13px;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.feature span {
+    color: var(--text);
+    font-size: 11px;
+    line-height: 1.4;
+}
+
+/* HEADINGS */
+
+.page-title {
+    font-size: 27px;
+    letter-spacing: -1px;
+    margin-bottom: 7px;
+}
+
+.page-subtitle {
+    color: var(--text);
+    font-size: 13px;
+    line-height: 1.6;
+    margin-bottom: 22px;
+}
+
+/* FORM */
+
+label {
+    display: block;
+    font-weight: 700;
+    font-size: 13px;
+    margin-bottom: 8px;
+}
+
+input {
+    width: 100%;
+    padding: 15px;
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    outline: none;
+    font-size: 15px;
+    margin-bottom: 17px;
+}
+
+input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(103,89,232,0.08);
+}
+
+/* PROGRESS */
+
+.progress-wrap {
+    margin-bottom: 22px;
+}
+
+.progress-top {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--text);
+    margin-bottom: 7px;
+}
+
+.progress {
+    height: 8px;
+    background: #ebeaf5;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary), var(--mint));
+    border-radius: 20px;
+    width: 0%;
+    transition: .3s;
+}
+
+/* QUESTION */
+
+.question-card {
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.question-number {
+    color: var(--primary);
+    font-size: 12px;
+    font-weight: 800;
+    margin-bottom: 15px;
+}
+
+.question-text {
+    font-size: 22px;
+    line-height: 1.35;
+    margin-bottom: 24px;
+}
+
+.answer {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 10px;
+    border: 1px solid var(--border);
+    background: white;
+    border-radius: 15px;
+    text-align: left;
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--dark);
+    transition: .2s;
+}
+
+.answer:hover {
+    border-color: var(--primary);
+    background: #f7f5ff;
+    transform: translateX(3px);
+}
+
+/* RESULT */
+
+.result-circle {
+    width: 155px;
+    height: 155px;
+    margin: 20px auto;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background: conic-gradient(var(--primary) 0deg, #e9e8f2 0deg);
+    position: relative;
+}
+
+.result-circle::after {
+    content: "";
+    position: absolute;
+    width: 125px;
+    height: 125px;
+    border-radius: 50%;
+    background: white;
+}
+
+.result-score {
+    position: relative;
+    z-index: 2;
+    font-size: 34px;
+    font-weight: 800;
+}
+
+.result-label {
+    position: relative;
+    z-index: 2;
+    color: var(--text);
+    font-size: 11px;
+}
+
+.result-level {
+    text-align: center;
+    padding: 13px;
+    border-radius: 15px;
+    font-weight: 800;
+    margin-bottom: 15px;
+}
+
+/* BARS */
+
+.metric {
+    margin-bottom: 17px;
+}
+
+.metric-top {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    margin-bottom: 7px;
+}
+
+.metric-track {
+    height: 9px;
+    background: #ecebf4;
+    border-radius: 20px;
+}
+
+.metric-fill {
+    height: 100%;
+    border-radius: 20px;
+}
+
+/* NAV */
+
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    max-width: 480px;
+    display: flex;
+    justify-content: space-around;
+    padding: 12px 8px;
+    background: rgba(255,255,255,0.94);
+    backdrop-filter: blur(15px);
+    border-top: 1px solid var(--border);
+    z-index: 20;
+}
+
+.nav-item {
+    border: none;
+    background: transparent;
+    color: #9695a8;
+    font-size: 10px;
+    cursor: pointer;
+    padding: 5px 8px;
+}
+
+.nav-icon {
+    display: block;
+    font-size: 20px;
+    margin-bottom: 3px;
+}
+
+.nav-item.active {
+    color: var(--primary);
+    font-weight: 800;
+}
+
+/* SUPPORT */
+
+.support {
+    background: linear-gradient(135deg, #fff3f4, #fff8f8);
+    border: 1px solid #ffdadd;
+}
+
+.support h3 {
+    color: #c54c57;
+}
+
+.support .btn {
+    background: #e96b75;
+    color: white;
+}
+
+/* PRIVACY */
+
+.privacy {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    background: #eefaf6;
+    border: 1px solid #d6f1e8;
+    padding: 15px;
+    border-radius: 16px;
+    margin-top: 18px;
+}
+
+.privacy-icon {
+    font-size: 23px;
+}
+
+.privacy p {
+    font-size: 11px;
+    color: #447064;
+    line-height: 1.5;
+}
+
+/* JOURNEY */
+
+.empty {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--text);
+}
+
+.history-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.history-date {
+    font-size: 12px;
+    color: var(--text);
+}
+
+.history-score {
+    font-weight: 800;
+    color: var(--primary);
+}
+
+.badge {
+    font-size: 9px;
+    padding: 5px 8px;
+    border-radius: 20px;
+    background: #efedff;
+    color: var(--primary);
+    font-weight: 800;
+}
+
+/* ABOUT */
+
+.team-box {
+    text-align: center;
+    background: linear-gradient(135deg, #6759e8, #8b7cf6);
+    color: white;
+}
+
+.team-box p {
+    color: rgba(255,255,255,.8);
+}
+
+@media (min-width: 600px) {
+
+    body {
+        padding: 25px;
+    }
+
+    .app {
+        min-height: calc(100vh - 50px);
+        border-radius: 30px;
+        box-shadow: var(--shadow);
+    }
+
+    .bottom-nav {
+        bottom: 25px;
+        border-radius: 0 0 30px 30px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<!-- =====================================================
+     TOP BAR
+===================================================== -->
+
+<div class="topbar">
+
+    <div class="brand">
+
+        <div class="logo">🧠</div>
+
+        <div>
+            <div class="brand-name">MINDLY</div>
+            <div class="brand-tag">Your Mind, Your Space.</div>
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     WELCOME
+===================================================== -->
+
+<section id="welcome" class="screen active">
+
+    <div class="hero">
+
+        <div class="mind-orb">
+            🧠
+        </div>
+
+        <h1>MINDLY</h1>
+
+        <div class="tagline">
+            Your Mind, Your Space.
+        </div>
+
+        <p>
+            A simple and private space to check in
+            with yourself, understand how you are
+            feeling and discover your next step.
+        </p>
+
+    </div>
+
+
+    <button class="btn btn-primary"
+            onclick="showScreen('profile')">
+
+        Begin Your Check-In →
+
+    </button>
+
+
+    <button class="btn btn-light"
+            onclick="showScreen('about')">
+
+        Learn About MINDLY
+
+    </button>
+
+
+    <div class="feature-grid">
+
+        <div class="feature">
+
+            <div class="feature-icon">🧠</div>
+
+            <strong>Self Check</strong>
+
+            <span>
+                Reflect on your recent wellbeing.
+            </span>
+
+        </div>
+
+
+        <div class="feature">
+
+            <div class="feature-icon">💡</div>
+
+            <strong>Guidance</strong>
+
+            <span>
+                Discover appropriate next steps.
+            </span>
+
+        </div>
+
+
+        <div class="feature">
+
+            <div class="feature-icon">📈</div>
+
+            <strong>Journey</strong>
+
+            <span>
+                Track your check-ins over time.
+            </span>
+
+        </div>
+
+
+        <div class="feature">
+
+            <div class="feature-icon">🔒</div>
+
+            <strong>Privacy</strong>
+
+            <span>
+                Your wellbeing deserves privacy.
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="privacy">
+
+        <div class="privacy-icon">🔒</div>
+
+        <p>
+            <strong>Privacy first.</strong><br>
+            This prototype keeps your information
+            within this browser session.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     PROFILE
+===================================================== -->
+
+<section id="profile" class="screen">
+
+    <h2 class="page-title">
+        Welcome to MINDLY 🌱
+    </h2>
+
+    <p class="page-subtitle">
+        Let's personalize your experience.
+        You can use a nickname instead of your
+        full name.
+    </p>
+
+
+    <div class="card">
+
+        <label for="name">
+            What should we call you?
+        </label>
+
+        <input
+            id="name"
+            type="text"
+            placeholder="Your name or nickname"
+            maxlength="40"
+        >
+
+
+        <label for="age">
+            Your age
+        </label>
+
+        <input
+            id="age"
+            type="number"
+            min="5"
+            max="120"
+            placeholder="Age"
+        >
+
+
+        <button
+            class="btn btn-primary"
+            onclick="startCheck()">
+
+            Continue →
+
+        </button>
+
+    </div>
+
+
+    <div class="privacy">
+
+        <div class="privacy-icon">🛡️</div>
+
+        <p>
+            You control what you share.
+            MINDLY does not need personally
+            identifying information for this prototype.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     WELLNESS CHECK
+===================================================== -->
+
+<section id="check" class="screen">
+
+    <div class="progress-wrap">
+
+        <div class="progress-top">
+
+            <span id="questionProgress">
+                Question 1 of 9
+            </span>
+
+            <span id="progressPercent">
+                11%
+            </span>
+
+        </div>
+
+        <div class="progress">
+
+            <div
+                id="progressBar"
+                class="progress-bar">
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="card question-card">
+
+        <div
+            id="questionNumber"
+            class="question-number">
+        </div>
+
+        <div
+            id="questionText"
+            class="question-text">
+        </div>
+
+
+        <div id="answers"></div>
+
+    </div>
+
+
+    <p
+        style="
+        text-align:center;
+        color:#88879b;
+        font-size:10px;
+        line-height:1.5;
+        margin-top:15px;
+        ">
+
+        This is a demonstration wellness check,
+        not a medical diagnosis.
+
+    </p>
+
+</section>
+
+
+<!-- =====================================================
+     RESULT
+===================================================== -->
+
+<section id="result" class="screen">
+
+    <div style="text-align:center;">
+
+        <h2 class="page-title">
+            Your MINDLY Check-In
+        </h2>
+
+        <p class="page-subtitle">
+            Here's what your responses indicate
+            in this demonstration.
+        </p>
+
+    </div>
+
+
+    <div
+        id="resultCircle"
+        class="result-circle">
+
+        <div
+            id="resultScore"
+            class="result-score">
+            0
+        </div>
+
+        <div class="result-label">
+            DEMO SCORE
+        </div>
+
+    </div>
+
+
+    <div
+        id="resultLevel"
+        class="result-level">
+    </div>
+
+
+    <div class="card">
+
+        <h3>
+            Your indicators
+        </h3>
+
+        <br>
+
+        <div class="metric">
+
+            <div class="metric-top">
+
+                <span>Mood</span>
+
+                <span id="moodValue">
+                    0 / 15
+                </span>
+
+            </div>
+
+            <div class="metric-track">
+
+                <div
+                    id="moodBar"
+                    class="metric-fill"
+                    style="
+                    background:#6759e8;
+                    width:0%;
+                    ">
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="metric">
+
+            <div class="metric-top">
+
+                <span>Anxiety / Worry</span>
+
+                <span id="anxietyValue">
+                    0 / 12
+                </span>
+
+            </div>
+
+            <div class="metric-track">
+
+                <div
+                    id="anxietyBar"
+                    class="metric-fill"
+                    style="
+                    background:#66d6b4;
+                    width:0%;
+                    ">
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <h3>
+            What this means
+        </h3>
+
+        <p id="resultMessage">
+        </p>
+
+    </div>
+
+
+    <button
+        class="btn btn-primary"
+        onclick="showScreen('guidance')">
+
+        See My Guidance →
+
+    </button>
+
+
+    <button
+        class="btn btn-light"
+        onclick="showScreen('support')">
+
+        View Support Options
+
+    </button>
+
+</section>
+
+
+<!-- =====================================================
+     GUIDANCE
+===================================================== -->
+
+<section id="guidance" class="screen">
+
+    <h2 class="page-title">
+        Your Next Step 💡
+    </h2>
+
+    <p class="page-subtitle">
+        Small steps can make a difference.
+        Choose what feels useful to you.
+    </p>
+
+
+    <div id="guidanceContent">
+
+    </div>
+
+
+    <div class="card">
+
+        <h3>
+            🌿 A simple reset
+        </h3>
+
+        <p>
+            Take a few slow, comfortable breaths.
+            Relax your shoulders and give yourself
+            a short pause before returning to your day.
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <h3>
+            🤝 Talk to someone
+        </h3>
+
+        <p>
+            A trusted friend, family member,
+            teacher, mentor or counsellor can be
+            a valuable source of support.
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <h3>
+            🧑‍⚕️ Professional support
+        </h3>
+
+        <p>
+            If difficulties persist or interfere
+            with your daily life, consider speaking
+            with a qualified mental-health professional.
+        </p>
+
+    </div>
+
+
+    <button
+        class="btn btn-primary"
+        onclick="showScreen('journey')">
+
+        View My Journey →
+
+    </button>
+
+</section>
+
+
+<!-- =====================================================
+     JOURNEY
+===================================================== -->
+
+<section id="journey" class="screen">
+
+    <h2 class="page-title">
+        My Mindly Journey 📈
+    </h2>
+
+    <p class="page-subtitle">
+        Your check-ins can help you notice
+        patterns over time.
+    </p>
+
+
+    <div class="card">
+
+        <h3>
+            Your check-ins
+        </h3>
+
+        <div id="historyList">
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <h3>
+            Remember
+        </h3>
+
+        <p>
+            Progress is not about having a perfect
+            score. It is about noticing yourself,
+            taking care of yourself and knowing when
+            to reach out.
+        </p>
+
+    </div>
+
+
+    <button
+        class="btn btn-primary"
+        onclick="startNewCheck()">
+
+        + New Check-In
+
+    </button>
+
+</section>
+
+
+<!-- =====================================================
+     SUPPORT
+===================================================== -->
+
+<section id="support" class="screen">
+
+    <h2 class="page-title">
+        You Don't Have To Do It Alone 🤝
+    </h2>
+
+    <p class="page-subtitle">
+        MINDLY is a support tool, not an emergency
+        service or replacement for a professional.
+    </p>
+
+
+    <div class="card">
+
+        <h3>
+            💬 Talk to someone you trust
+        </h3>
+
+        <p>
+            Consider reaching out to a friend,
+            family member, teacher, mentor,
+            counsellor or another trusted person.
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <h3>
+            🧑‍⚕️ Professional support
+        </h3>
+
+        <p>
+            If your concerns continue or affect
+            everyday activities, consider speaking
+            with a qualified mental-health professional.
+        </p>
+
+    </div>
+
+
+    <div class="card support">
+
+        <h3>
+            🚨 Urgent situation?
+        </h3>
+
+        <p>
+            If you feel unsafe or believe you may
+            be in immediate danger, do not rely on
+            MINDLY for emergency assistance.
+        </p>
+
+        <button
+            class="btn"
+            onclick="showEmergency()">
+
+            View Urgent Guidance
+
+        </button>
+
+    </div>
+
+
+    <div class="privacy">
+
+        <div class="privacy-icon">🛡️</div>
+
+        <p>
+            For the production version, this section
+            should connect users to verified official
+            crisis and government support pathways.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     EMERGENCY MODAL
+===================================================== -->
+
+<div
+    id="emergencyModal"
+    style="
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(25,24,50,.65);
+    z-index:100;
+    padding:25px;
+    ">
+
+    <div
+        style="
+        max-width:440px;
+        margin:80px auto;
+        background:white;
+        border-radius:25px;
+        padding:25px;
+        ">
+
+        <h2 style="margin-bottom:12px;">
+            🚨 Urgent Support
+        </h2>
+
+        <p
+            style="
+            color:#55556b;
+            line-height:1.7;
+            font-size:14px;
+            ">
+
+            If you feel that you or someone else
+            is in immediate danger:
+
+        </p>
+
+        <br>
+
+        <p
+            style="
+            line-height:1.8;
+            font-size:14px;
+            ">
+
+            <strong>1.</strong>
+            Move to a safe place.<br>
+
+            <strong>2.</strong>
+            Stay with a trusted person.<br>
+
+            <strong>3.</strong>
+            Tell a trusted adult, counsellor,
+            doctor or mental-health professional.<br>
+
+            <strong>4.</strong>
+            Contact the appropriate verified
+            local emergency/crisis service.
+
+        </p>
+
+        <button
+            class="btn btn-primary"
+            onclick="closeEmergency()">
+
+            Close
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     ABOUT
+===================================================== -->
+
+<section id="about" class="screen">
+
+    <h2 class="page-title">
+        About MINDLY
+    </h2>
+
+    <p class="page-subtitle">
+        Understand. Reflect. Connect.
+    </p>
+
+
+    <div class="card team-box">
+
+        <h2>
+            MINDLY
+        </h2>
+
+        <br>
+
+        <p>
+            Your Mind, Your Space.
+        </p>
+
+        <br>
+
+        <strong>
+            Presented by Team KRYPTIX
+        </strong>
+
+    </div>
+
+
+    <div class="card">
+
+        <h3>
+            🎯 Our Purpose
+        </h3>
+
+        <p>
+            MINDLY is designed as a mental-wellness
+            support platform that helps users
+            self-check their wellbeing, understand
+            areas that may need attention and find
+            appropriate next steps.
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <h3>
+            🔄 Our Approach
+        </h3>
+
+        <p style="margin-top:10px;">
+
+            <strong>CHECK</strong><br>
+            Reflect on your wellbeing.
+
+            <br><br>
+
+            <strong>UNDERSTAND</strong><br>
+            Make sense of your responses.
+
+            <br><br>
+
+            <strong>GUIDE</strong><br>
+            Find suitable next steps.
+
+            <br><br>
+
+            <strong>CONNECT</strong><br>
+            Reach appropriate human support.
+
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <h3>
+            🔒 Privacy
+        </h3>
+
+        <p>
+            Privacy is a core design principle.
+            The production system can use secure
+            authentication, controlled data access
+            and privacy-conscious storage.
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <h3>
+            ⚠️ Important
+        </h3>
+
+        <p>
+            This prototype is not intended to
+            diagnose, treat or replace professional
+            mental-health care.
+        </p>
+
+    </div>
+
+
+    <button
+        class="btn btn-primary"
+        onclick="showScreen('welcome')">
+
+        Back to MINDLY
+
+    </button>
+
+</section>
+
+
+<!-- =====================================================
+     BOTTOM NAVIGATION
+===================================================== -->
+
+<nav class="bottom-nav">
+
+    <button
+        class="nav-item active"
+        onclick="showScreen('welcome')">
+
+        <span class="nav-icon">🏠</span>
+        Home
+
+    </button>
+
+
+    <button
+        class="nav-item"
+        onclick="showScreen('check')">
+
+        <span class="nav-icon">🧠</span>
+        Check-In
+
+    </button>
+
+
+    <button
+        class="nav-item"
+        onclick="showScreen('guidance')">
+
+        <span class="nav-icon">💡</span>
+        Guidance
+
+    </button>
+
+
+    <button
+        class="nav-item"
+        onclick="showScreen('journey')">
+
+        <span class="nav-icon">📈</span>
+        Journey
+
+    </button>
+
+
+    <button
+        class="nav-item"
+        onclick="showScreen('support')">
+
+        <span class="nav-icon">🤝</span>
+        Support
+
+    </button>
+
+</nav>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   MINDLY APPLICATION LOGIC
+   ========================================================= */
+
+
+/* USER */
+
+let user = {
+    name: "",
+    age: 0
+};
+
+
+/* CURRENT CHECK */
+
+let currentQuestion = 0;
+
+let moodScore = 0;
+
+let anxietyScore = 0;
+
+let totalScore = 0;
+
+
+/* HISTORY */
+
+let history = [];
+
+
+/* DEMO QUESTIONS */
+
+const questions = [
+
+    {
+        type: "mood",
+        text: "Have you recently felt low, sad, or emotionally tired?"
+    },
+
+    {
+        type: "mood",
+        text: "Have you found it difficult to enjoy activities you normally like?"
+    },
+
+    {
+        type: "mood",
+        text: "Have you found it difficult to maintain your normal daily routine?"
+    },
+
+    {
+        type: "mood",
+        text: "Have you recently felt unusually tired or without energy?"
+    },
+
+    {
+        type: "mood",
+        text: "Have you found it difficult to concentrate on studies or work?"
+    },
+
+    {
+        type: "anxiety",
+        text: "Have you recently felt unusually worried or nervous?"
+    },
+
+    {
+        type: "anxiety",
+        text: "Have you found it difficult to relax?"
+    },
+
+    {
+        type: "anxiety",
+        text: "Have you felt restless or unable to settle your thoughts?"
+    },
+
+    {
+        type: "anxiety",
+        text: "Have worries made your normal activities more difficult?"
+    }
+
+];
+
+
+/* ANSWERS */
+
+const answers = [
+
+    {
+        label: "Not at all",
+        value: 0
+    },
+
+    {
+        label: "A little",
+        value: 1
+    },
+
+    {
+        label: "Often",
+        value: 2
+    },
+
+    {
+        label: "Almost every day",
+        value: 3
+    }
+
+];
+
+
+/* =========================================================
+   SCREEN NAVIGATION
+========================================================= */
+
+function showScreen(id) {
+
+    document
+        .querySelectorAll(".screen")
+        .forEach(screen => {
+
+            screen.classList.remove("active");
+
+        });
+
+
+    const target =
+        document.getElementById(id);
+
+
+    if (target) {
+
+        target.classList.add("active");
+
+    }
+
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
+
+    updateNavigation(id);
+
+
+    if (id === "journey") {
+
+        renderHistory();
+
+    }
+
+}
+
+
+/* =========================================================
+   NAVIGATION HIGHLIGHT
+========================================================= */
+
+function updateNavigation(id) {
+
+    document
+        .querySelectorAll(".nav-item")
+        .forEach(item => {
+
+            item.classList.remove("active");
+
+        });
+
+
+    const mapping = {
+
+        welcome: 0,
+
+        check: 1,
+
+        guidance: 2,
+
+        journey: 3,
+
+        support: 4
+
+    };
+
+
+    if (mapping[id] !== undefined) {
+
+        document
+            .querySelectorAll(".nav-item")
+            [mapping[id]]
+            .classList.add("active");
+
+    }
+
+}
+
+
+/* =========================================================
+   PROFILE
+========================================================= */
+
+function startCheck() {
+
+    const name =
+        document.getElementById("name").value.trim();
+
+
+    const age =
+        Number(document.getElementById("age").value);
+
+
+    if (!name) {
+
+        alert("Please enter your name or nickname.");
+
+        return;
+
+    }
+
+
+    if (!age || age < 5 || age > 120) {
+
+        alert("Please enter a valid age.");
+
+        return;
+
+    }
+
+
+    user.name = name;
+
+    user.age = age;
+
+
+    startNewCheck();
+
+}
+
+
+/* =========================================================
+   START NEW CHECK
+========================================================= */
+
+function startNewCheck() {
+
+    currentQuestion = 0;
+
+    moodScore = 0;
+
+    anxietyScore = 0;
+
+    totalScore = 0;
+
+
+    showScreen("check");
+
+    displayQuestion();
+
+}
+
+
+/* =========================================================
+   DISPLAY QUESTION
+========================================================= */
+
+function displayQuestion() {
+
+    const question =
+        questions[currentQuestion];
+
+
+    const total =
+        questions.length;
+
+
+    document.getElementById(
+        "questionNumber"
+    ).textContent =
+        `QUESTION ${currentQuestion + 1}`;
+
+
+    document.getElementById(
+        "questionText"
+    ).textContent =
+        question.text;
+
+
+    document.getElementById(
+        "questionProgress"
+    ).textContent =
+        `Question ${currentQuestion + 1} of ${total}`;
+
+
+    const percent =
+        Math.round(
+            ((currentQuestion + 1) / total) * 100
+        );
+
+
+    document.getElementById(
+        "progressPercent"
+    ).textContent =
+        `${percent}%`;
+
+
+    document.getElementById(
+        "progressBar"
+    ).style.width =
+        `${percent}%`;
+
+
+    const answersContainer =
+        document.getElementById("answers");
+
+
+    answersContainer.innerHTML = "";
+
+
+    answers.forEach(answer => {
+
+        const button =
+            document.createElement("button");
+
+
+        button.className =
+            "answer";
+
+
+        button.textContent =
+            answer.label;
+
+
+        button.onclick =
+            () => selectAnswer(answer.value);
+
+
+        answersContainer.appendChild(button);
+
+    });
+
+}
+
+
+/* =========================================================
+   ANSWER
+========================================================= */
+
+function selectAnswer(value) {
+
+    const question =
+        questions[currentQuestion];
+
+
+    if (question.type === "mood") {
+
+        moodScore += value;
+
+    }
+
+    else {
+
+        anxietyScore += value;
+
+    }
+
+
+    totalScore += value;
+
+
+    currentQuestion++;
+
+
+    if (currentQuestion < questions.length) {
+
+        displayQuestion();
+
+    }
+
+    else {
+
+        finishCheck();
+
+    }
+
+}
+
+
+/* =========================================================
+   FINISH CHECK
+========================================================= */
+
+function finishCheck() {
+
+    let level;
+
+    let message;
+
+
+    if (totalScore <= 5) {
+
+        level = "LOW CONCERN";
+
+        message =
+            "Your responses suggest relatively low concern in this demonstration. Continue maintaining healthy routines, rest, social connection and activities you enjoy.";
+
+    }
+
+    else if (totalScore <= 11) {
+
+        level = "MODERATE CONCERN";
+
+        message =
+            "Some areas may deserve additional attention. Consider talking to someone you trust and consider professional support if concerns continue.";
+
+    }
+
+    else if (totalScore <= 18) {
+
+        level = "HIGH CONCERN";
+
+        message =
+            "Your responses show several areas of concern in this demonstration. Consider speaking with a qualified mental-health professional or trusted person.";
+
+    }
+
+    else {
+
+        level = "VERY HIGH CONCERN";
+
+        message =
+            "Your responses show significant concern in this demonstration. Consider reaching out for professional support and do not ignore persistent difficulties.";
+
+    }
+
+
+    const today =
+        new Date().toLocaleDateString();
+
+
+    history.push({
+
+        date: today,
+
+        mood: moodScore,
+
+        anxiety: anxietyScore,
+
+        total: totalScore,
+
+        level: level
+
+    });
+
+
+    localStorage.setItem(
+        "mindlyHistory",
+        JSON.stringify(history)
+    );
+
+
+    displayResult(
+        level,
+        message
+    );
+
+
+    showScreen("result");
+
+}
+
+
+/* =========================================================
+   RESULT DISPLAY
+========================================================= */
+
+function displayResult(level, message) {
+
+    document.getElementById(
+        "resultScore"
+    ).textContent =
+        totalScore;
+
+
+    document.getElementById(
+        "moodValue"
+    ).textContent =
+        `${moodScore} / 15`;
+
+
+    document.getElementById(
+        "anxietyValue"
+    ).textContent =
+        `${anxietyScore} / 12`;
+
+
+    document.getElementById(
+        "moodBar"
+    ).style.width =
+        `${(moodScore / 15) * 100}%`;
+
+
+    document.getElementById(
+        "anxietyBar"
+    ).style.width =
+        `${(anxietyScore / 12) * 100}%`;
+
+
+    document.getElementById(
+        "resultMessage"
+    ).textContent =
+        message;
+
+
+    const levelElement =
+        document.getElementById("resultLevel");
+
+
+    levelElement.textContent =
+        level;
+
+
+    if (level === "LOW CONCERN") {
+
+        levelElement.style.background =
+            "#eaf9f1";
+
+        levelElement.style.color =
+            "#24925e";
+
+    }
+
+    else if (level === "MODERATE CONCERN") {
+
+        levelElement.style.background =
+            "#fff7df";
+
+        levelElement.style.color =
+            "#a57700";
+
+    }
+
+    else {
+
+        levelElement.style.background =
+            "#fff0f1";
+
+        levelElement.style.color =
+            "#c54c57";
+
+    }
+
+
+    const degree =
+        Math.min(
+            totalScore / 27 * 360,
+            359
+        );
+
+
+    document.getElementById(
+        "resultCircle"
+    ).style.background =
+        `conic-gradient(#6759e8 ${degree}deg, #e9e8f2 ${degree}deg)`;
+
+}
+
+
+/* =========================================================
+   GUIDANCE
+========================================================= */
+
+function renderGuidance() {
+
+    const container =
+        document.getElementById(
+            "guidanceContent"
+        );
+
+
+    if (history.length === 0) {
+
+        container.innerHTML = `
+
+            <div class="card">
+
+                <h3>🌱 Start with a check-in</h3>
+
+                <p>
+                    Complete a MINDLY wellness check
+                    to receive guidance based on
+                    your responses.
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    const latest =
+        history[history.length - 1];
+
+
+    let html = "";
+
+
+    if (latest.mood > latest.anxiety) {
+
+        html = `
+
+            <div class="card">
+
+                <h3>
+                    🌿 Focus: Mood & Daily Wellbeing
+                </h3>
+
+                <p>
+                    Your mood-related indicators were
+                    higher in this demonstration.
+                    Consider focusing on routine,
+                    enjoyable activities and social
+                    connection.
+                </p>
+
+            </div>
+
+        `;
+
+    }
+
+    else if (latest.anxiety > latest.mood) {
+
+        html = `
+
+            <div class="card">
+
+                <h3>
+                    🌊 Focus: Worry & Stress
+                </h3>
+
+                <p>
+                    Your worry-related indicators were
+                    higher in this demonstration.
+                    Consider relaxation, manageable
+                    planning and talking to someone
+                    you trust.
+                </p>
+
+            </div>
+
+        `;
+
+    }
+
+    else {
+
+        html = `
+
+            <div class="card">
+
+                <h3>
+                    🌱 Focus: Balanced Wellbeing
+                </h3>
+
+                <p>
+                    Your mood and worry indicators were
+                    similar. A balanced routine, rest
+                    and social connection may be useful.
+                </p>
+
+            </div>
+
+        `;
+
+    }
+
+
+    container.innerHTML =
+        html;
+
+}
+
+
+/* =========================================================
+   HISTORY
+========================================================= */
+
+function loadHistory() {
+
+    const stored =
+        localStorage.getItem(
+            "mindlyHistory"
+        );
+
+
+    if (stored) {
+
+        history =
+            JSON.parse(stored);
+
+    }
+
+}
+
+
+/* =========================================================
+   RENDER HISTORY
+========================================================= */
+
+function renderHistory() {
+
+    const container =
+        document.getElementById(
+            "historyList"
+        );
+
+
+    if (history.length === 0) {
+
+        container.innerHTML = `
+
+            <div class="empty">
+
+                <div style="font-size:40px;">
+                    🌱
+                </div>
+
+                <br>
+
+                <strong>
+                    Your journey starts here.
+                </strong>
+
+                <br><br>
+
+                Complete your first check-in
+                to begin tracking your journey.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    container.innerHTML = "";
+
+
+    history
+        .slice()
+        .reverse()
+        .forEach(item => {
+
+            const row =
+                document.createElement("div");
+
+
+            row.className =
+                "history-item";
+
+
+            row.innerHTML = `
+
+                <div>
+
+                    <div class="history-date">
+                        ${item.date}
+                    </div>
+
+                    <strong>
+                        Wellness Check
+                    </strong>
+
+                </div>
+
+                <div style="text-align:right;">
+
+                    <div class="history-score">
+                        ${item.total}/27
+                    </div>
+
+                    <span class="badge">
+                        ${item.level}
+                    </span>
+
+                </div>
+
+            `;
+
+
+            container.appendChild(row);
+
+        });
+
+}
+
+
+/* =========================================================
+   SUPPORT MODAL
+========================================================= */
+
+function showEmergency() {
+
+    document.getElementById(
+        "emergencyModal"
+    ).style.display =
+        "block";
+
+}
+
+
+function closeEmergency() {
+
+    document.getElementById(
+        "emergencyModal"
+    ).style.display =
+        "none";
+
+}
+
+
+/* =========================================================
+   LOAD APP
+========================================================= */
+
+loadHistory();
+
+
+/* guidance updates when screen opens */
+
+const originalShowScreen =
+    showScreen;
+
+
+showScreen = function(id) {
+
+    originalShowScreen(id);
+
+
+    if (id === "guidance") {
+
+        renderGuidance();
+
+    }
+
+    if (id === "journey") {
+
+        renderHistory();
+
+    }
+
+};
+
+
+</script>
+
+</body>
+</html>
