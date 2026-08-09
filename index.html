@@ -21,7 +21,7 @@
 }
 
 :root {
-    --primary: #6759e8;
+    --primary: #6759e8; 
     --primary-dark: #5144c9;
     --secondary: #8b7cf6;
     --mint: #66d6b4;
@@ -583,6 +583,182 @@ input:focus {
     }
 }
 
+
+/* =========================
+   MINDLY CHATBOT
+   ========================= */
+.mindly-chat-toggle{
+    position:fixed;
+    right:22px;
+    bottom:82px;
+    width:58px;
+    height:58px;
+    border:0;
+    border-radius:50%;
+    background:linear-gradient(135deg,#6759e8,#8b7cf6);
+    color:#fff;
+    font-size:26px;
+    cursor:pointer;
+    z-index:80;
+    box-shadow:0 12px 30px rgba(103,89,232,.35);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:.2s;
+}
+.mindly-chat-toggle:hover{transform:translateY(-3px) scale(1.03)}
+.mindly-chat-badge{
+    position:absolute;
+    top:-3px;
+    right:-2px;
+    width:18px;
+    height:18px;
+    border-radius:50%;
+    background:#35b779;
+    border:2px solid #fff;
+}
+.mindly-chat-window{
+    position:fixed;
+    right:22px;
+    bottom:150px;
+    width:min(360px,calc(100vw - 28px));
+    height:500px;
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:24px;
+    box-shadow:0 20px 60px rgba(36,36,58,.22);
+    z-index:79;
+    display:none;
+    overflow:hidden;
+    flex-direction:column;
+}
+.mindly-chat-window.open{display:flex;animation:chatIn .2s ease}
+@keyframes chatIn{from{opacity:0;transform:translateY(10px) scale(.98)}to{opacity:1;transform:none}}
+.mindly-chat-header{
+    padding:15px 17px;
+    background:linear-gradient(135deg,#6759e8,#8b7cf6);
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+.mindly-chat-title{display:flex;align-items:center;gap:10px}
+.mindly-chat-avatar{
+    width:38px;height:38px;border-radius:12px;background:rgba(255,255,255,.18);
+    display:flex;align-items:center;justify-content:center;font-size:21px;
+}
+.mindly-chat-header strong{display:block;font-size:14px}
+.mindly-chat-header small{opacity:.82;font-size:10px}
+.mindly-chat-close{
+    border:0;background:transparent;color:#fff;font-size:24px;cursor:pointer;
+}
+.mindly-chat-messages{
+    flex:1;
+    padding:15px;
+    overflow-y:auto;
+    background:#fafaff;
+}
+.mindly-chat-message{
+    max-width:85%;
+    padding:10px 12px;
+    margin-bottom:9px;
+    border-radius:15px;
+    font-size:13px;
+    line-height:1.5;
+    white-space:pre-wrap;
+}
+.mindly-chat-message.bot{
+    background:#efedff;
+    color:#33304f;
+    border-bottom-left-radius:5px;
+}
+.mindly-chat-message.user{
+    margin-left:auto;
+    background:#6759e8;
+    color:#fff;
+    border-bottom-right-radius:5px;
+}
+.mindly-chat-quick{
+    display:flex;
+    gap:7px;
+    overflow-x:auto;
+    padding:8px 12px 3px;
+    background:#fff;
+}
+.mindly-chat-quick button{
+    flex:0 0 auto;
+    border:1px solid #dddaf3;
+    background:#fff;
+    color:#5144c9;
+    padding:7px 10px;
+    border-radius:18px;
+    font-size:11px;
+    cursor:pointer;
+}
+.mindly-chat-input{
+    display:flex;
+    gap:8px;
+    padding:10px;
+    border-top:1px solid var(--border);
+    background:#fff;
+}
+.mindly-chat-input input{
+    flex:1;
+    margin:0;
+    padding:11px 12px;
+    border-radius:13px;
+    font-size:13px;
+}
+.mindly-chat-send{
+    width:44px;
+    border:0;
+    border-radius:13px;
+    background:#6759e8;
+    color:#fff;
+    cursor:pointer;
+    font-size:18px;
+}
+.mindly-chat-note{
+    padding:5px 12px 8px;
+    font-size:9px;
+    color:#88879b;
+    background:#fff;
+    text-align:center;
+}
+@media (max-width:600px){
+    .mindly-chat-toggle{right:16px;bottom:78px}
+    .mindly-chat-window{right:14px;bottom:145px;height:min(500px,65vh)}
+}
+
+
+/* Guaranteed-visible chatbot controls */
+.mindly-top-chat{
+    margin-left:auto;
+    display:flex;
+    align-items:center;
+}
+.mindly-top-chat button{
+    border:0;
+    padding:10px 13px;
+    border-radius:14px;
+    background:#6759e8;
+    color:#fff;
+    font-size:12px;
+    font-weight:700;
+    cursor:pointer;
+    box-shadow:0 6px 16px rgba(103,89,232,.25);
+}
+.mindly-top-chat button:hover{transform:translateY(-1px)}
+.mindly-chat-toggle{
+    display:flex !important;
+    visibility:visible !important;
+    opacity:1 !important;
+    z-index:99999 !important;
+}
+.mindly-chat-window{
+    z-index:99998 !important;
+}
+
 </style>
 </head>
 
@@ -595,6 +771,12 @@ input:focus {
 ===================================================== -->
 
 <div class="topbar">
+<div class="mindly-top-chat">
+    <button type="button" id="mindlyTopChat" aria-label="Open MINDLY Assistant">
+        💬 <span>Chat</span>
+    </button>
+</div>
+
 
     <div class="brand">
 
@@ -2339,6 +2521,188 @@ showScreen = function(id) {
 };
 
 
+</script>
+
+
+<!-- =========================
+     MINDLY CHATBOT
+     ========================= -->
+<button id="mindlyChatToggle" class="mindly-chat-toggle" aria-label="Open MINDLY assistant" title="Chat with MINDLY">
+    💬
+    <span class="mindly-chat-badge"></span>
+</button>
+
+<div id="mindlyChatWindow" class="mindly-chat-window" aria-hidden="true">
+    <div class="mindly-chat-header">
+        <div class="mindly-chat-title">
+            <div class="mindly-chat-avatar">🧠</div>
+            <div>
+                <strong>MINDLY Assistant</strong>
+                <small>Here to help you navigate MINDLY</small>
+            </div>
+        </div>
+        <button id="mindlyChatClose" class="mindly-chat-close" aria-label="Close chat">×</button>
+    </div>
+
+    <div id="mindlyChatMessages" class="mindly-chat-messages"></div>
+
+    <div class="mindly-chat-quick">
+        <button data-chat="What is MINDLY?">What is MINDLY?</button>
+        <button data-chat="How does the check-in work?">Check-in help</button>
+        <button data-chat="What can I do if I feel stressed?">I feel stressed</button>
+    </div>
+
+    <div class="mindly-chat-input">
+        <input id="mindlyChatInput" type="text" maxlength="300"
+               placeholder="Type your message..." autocomplete="off">
+        <button id="mindlyChatSend" class="mindly-chat-send" aria-label="Send message">➤</button>
+    </div>
+    <div class="mindly-chat-note">
+        This assistant provides general support and app guidance. It is not a medical professional.
+    </div>
+</div>
+
+<script>
+
+/* =========================
+   MINDLY CHATBOT LOGIC
+   Offline demo assistant — no API key required
+   ========================= */
+(function(){
+    const toggle = document.getElementById("mindlyChatToggle");
+    const win = document.getElementById("mindlyChatWindow");
+    const close = document.getElementById("mindlyChatClose");
+    const messages = document.getElementById("mindlyChatMessages");
+    const input = document.getElementById("mindlyChatInput");
+    const send = document.getElementById("mindlyChatSend");
+
+    if(!toggle || !win || !messages || !input || !send) return;
+
+    function addMessage(text, who){
+        const el = document.createElement("div");
+        el.className = "mindly-chat-message " + who;
+        el.textContent = text;
+        messages.appendChild(el);
+        messages.scrollTop = messages.scrollHeight;
+    }
+
+    function openChat(){
+        win.classList.add("open");
+        win.setAttribute("aria-hidden","false");
+        input.focus();
+        if(!messages.dataset.started){
+            messages.dataset.started = "true";
+            addMessage(
+                "Hi! I'm the MINDLY Assistant 👋\n\nI can explain the app, help you use the check-in, or suggest simple wellbeing steps.",
+                "bot"
+            );
+        }
+    }
+
+    function closeChat(){
+        win.classList.remove("open");
+        win.setAttribute("aria-hidden","true");
+    }
+
+    function getBotReply(raw){
+        const text = raw.toLowerCase().trim();
+
+        if(!text) return "Please type a message and I'll do my best to help.";
+
+        if(/^(hi|hello|hey|hii|namaste)\b/.test(text)){
+            return "Hi! 👋 What would you like help with — MINDLY, the check-in, guidance, or your journey?";
+        }
+
+        if(text.includes("what is mindly") || text.includes("what is this") || text.includes("about mindly")){
+            return "MINDLY is a private wellbeing-support prototype. It lets you complete a demonstration self-check, view general guidance, and track check-ins in this browser.";
+        }
+
+        if(text.includes("check-in") || text.includes("check in") || text.includes("question")){
+            return "To start a check-in, tap “Begin Your Check-In”, enter a name or nickname and age, then answer the 9 questions. The result is a demonstration score, not a diagnosis.";
+        }
+
+        if(text.includes("result") || text.includes("score")){
+            return "Your result summarizes the answers you gave during the demonstration check-in. A higher score means more areas were flagged by this prototype; it should not be treated as a medical assessment.";
+        }
+
+        if(text.includes("journey") || text.includes("history")){
+            return "Your completed check-ins are shown under Journey. This prototype stores the history in your browser's local storage.";
+        }
+
+        if(text.includes("guidance") || text.includes("next step")){
+            return "The Guidance section gives simple, general suggestions based on your latest check-in, such as routine, rest, relaxation, social connection, or talking with a trusted person.";
+        }
+
+        if(text.includes("stress") || text.includes("stressed") || text.includes("worry") || text.includes("anxious")){
+            return "If you're feeling stressed, try pausing for a moment, taking a few comfortable breaths, and talking to someone you trust. If these feelings keep affecting daily life, consider speaking with a qualified professional.";
+        }
+
+        if(text.includes("sad") || text.includes("low") || text.includes("upset") || text.includes("down")){
+            return "I'm sorry you're having a difficult moment. You don't have to handle everything alone. Consider talking with a trusted person and taking a small, manageable break. If things feel overwhelming or unsafe, seek immediate help from a trusted adult or appropriate local emergency service.";
+        }
+
+        if(text.includes("help")){
+            return "Of course. You can ask me things like “How does the check-in work?”, “What does my score mean?”, or “What is the Journey section?”";
+        }
+
+        if(text.includes("thank")){
+            return "You're welcome 💜";
+        }
+
+        if(text.includes("emergency") || text.includes("unsafe") || text.includes("danger")){
+            return "If you or someone else is in immediate danger, don't rely on MINDLY. Move to a safer place, stay with a trusted person, and contact an appropriate verified local emergency service or a trusted adult.";
+        }
+
+        return "I can help with MINDLY's features and give general wellbeing guidance. Try asking about the check-in, results, guidance, or journey.";
+    }
+
+    function sendMessage(value){
+        const text = (value || input.value).trim();
+        if(!text) return;
+
+        addMessage(text, "user");
+        input.value = "";
+
+        setTimeout(function(){
+            addMessage(getBotReply(text), "bot");
+        }, 250);
+    }
+
+    toggle.addEventListener("click", function(){
+        if(win.classList.contains("open")) closeChat();
+        else openChat();
+    });
+
+    close.addEventListener("click", closeChat);
+    send.addEventListener("click", function(){ sendMessage(); });
+
+    input.addEventListener("keydown", function(e){
+        if(e.key === "Enter"){
+            e.preventDefault();
+            sendMessage();
+        }
+    });
+
+    document.querySelectorAll("[data-chat]").forEach(function(button){
+        button.addEventListener("click", function(){
+            openChat();
+            sendMessage(button.getAttribute("data-chat"));
+        });
+    });
+})();
+
+</script>
+
+<script>
+(function(){
+    const top = document.getElementById("mindlyTopChat");
+    const toggle = document.getElementById("mindlyChatToggle");
+    if(top && toggle){
+        top.addEventListener("click", function(){
+            toggle.click();
+        });
+    }
+})();
 </script>
 
 </body>
